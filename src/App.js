@@ -1,15 +1,15 @@
 import React, {PureComponent} from 'react';
 
 let id = 0;
-
+let idComment = 0;
 function getNewsId () {
   id += 1;
   return id;  
 }
 
 function getCommentsId () {
-  id += 1;
-  return id;  
+  idComment += 1;
+  return idComment;  
 }
 
 class App extends PureComponent {
@@ -38,21 +38,22 @@ class App extends PureComponent {
   render() {
     const {newsInput, news} = this.state;
     return (
-      <div>
+      <div className="App">
         <input 
           value={newsInput}
           onChange={this.handleChange} 
           onKeyDown={this.handleKeyDown}
         />
-        <div className="App">
-          {news.map(news => <News id={news.id} key={news.id} text = {news.value} />)}
+        <div className="NewsPost">
+          {news.map(news => <NewsPost id={news.id} key={news.id} text = {news.value} />)}
         </div>
+
       </div>
     );
   }
 }
 
-class News extends PureComponent {
+class NewsPost extends PureComponent {
   state = {
     id: 0,
     newsComments : '',
@@ -75,7 +76,7 @@ class News extends PureComponent {
 
   handleDelete = (id) => {
     this.setState(state => ({
-      comments: state.comments.filter(comment => id != comment.id)
+      comments: state.comments.filter(comments => id != comments.id)
     }));
   };
 
