@@ -49,7 +49,7 @@ class NewsPost extends Component {
       <div>
         <p className="news">{text}</p> 
         <div className="comments-wrap">
-          {comments.map(comments => (<Comment onDelete={this.handleDelete} id={comments.id} text = {comments.text} />))}
+          {comments.map(comments => (<Comment onDelete={this.handleDelete} id={comments.id} key={comments.id} text = {comments.text} />))}
         </div>
           
         <input 
