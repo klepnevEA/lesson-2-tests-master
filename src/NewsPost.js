@@ -27,9 +27,10 @@ class NewsPost extends Component {
   };
 
   handleKeyDown = (event) => {
-    if (event.keyCode === 13  && event.target.value !== '') {
-            const {commentInput, comments} = this.state;
-            const comment = {value: commentInput, id: getNewsId()};
+    const {commentInput, comments} = this.state;
+    if (event.keyCode === 13  && commentInput) {
+            
+            const comment = {text: commentInput, id: getNewsId()};
       
             this.setState({commentInput: '', comments: [ ...comments, comment]});
     }
@@ -48,7 +49,7 @@ class NewsPost extends Component {
       <div>
         <p className="news">{text}</p> 
         <div className="comments-wrap">
-          {comments.map(comments => (<Comment onDelete={this.handleDelete} id={comments.id} key={comments.id} text = {comments.value} />))}
+          {comments.map(comments => (<Comment onDelete={this.handleDelete} id={comments.id} text = {comments.text} />))}
         </div>
           
         <input 

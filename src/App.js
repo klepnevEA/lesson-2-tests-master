@@ -25,8 +25,9 @@ class App extends Component {
     };
 
     handleKeyDown = (event) => {
-      if (event.keyCode === 13 && event.target.value !== '') {
-        const {newsInput, news} = this.state;
+      const {newsInput, news} = this.state;
+      if (event.keyCode === 13 && newsInput) {
+        
         const newNews = {text: newsInput, id: getNewsId()};
         this.setState({newsInput: '', news: [ ...news, newNews]});
       }
