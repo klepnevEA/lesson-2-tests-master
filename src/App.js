@@ -1,4 +1,4 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import NewsPost from './NewsPost';
 let id = 0;
 
@@ -8,10 +8,15 @@ function getNewsId () {
 }
 
 
-class App extends PureComponent {
-  state = {
-    news : [],
-    newsInput : ''
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      news : [],
+      newsInput : '',
+    };
+    this.handleChange = this.handleChange.bind(this);  
+    this.handleKeyDown = this.handleKeyDown.bind(this);  
   };
 
     handleChange = (event) => {
@@ -20,13 +25,10 @@ class App extends PureComponent {
     };
 
     handleKeyDown = (event) => {
-      
-
-      if (event.keyCode === 13) {
-              const {newsInput, news} = this.state;
-              const newNews = {value: newsInput, id: getNewsId()};
-        
-              this.setState({newsInput: '', news: [ ...news, newNews]});
+      if (event.keyCode === 13 && event.target.value !== '') {
+        const {newsInput, news} = this.state;
+        const newNews = {text: newsInput, id: getNewsId()};
+        this.setState({newsInput: '', news: [ ...news, newNews]});
       }
 
     };
@@ -40,9 +42,7 @@ class App extends PureComponent {
           onChange={this.handleChange} 
           onKeyDown={this.handleKeyDown}
         />
-        <div className="NewsPost">
-          {news.map(news => <NewsPost id={news.id} key={news.id} text = {news.value} />)}
-        </div>
+        {news.map(news => <NewsPost key={news.id} text = {news.text} />)}
 
       </div>
     );

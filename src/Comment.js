@@ -1,6 +1,6 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import './Comment.css';
-class Comment extends PureComponent {
+class Comment extends Component {
 
   handleDelete = () => {
     const {id, onDelete} = this.props;

@@ -1,52 +1,58 @@
-import React, {PureComponent} from 'react';
+import React, {Component} from 'react';
 import Comment from './Comment';
 import './NewsPost.css';
-let idComment = 0;
+let id = 0;
 
-function getCommentsId () {
-  idComment += 1;
-  return idComment;  
+function getNewsId () {
+  id += 1;
+  return id;  
 }
 
-class NewsPost extends PureComponent {
-  state = {
-    id: 0,
-    newsComment : '',
-    comment: []
+class NewsPost extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      id: 0,
+      commentInput : '',
+      comments: []
+    };
+    this.handleChange = this.handleChange.bind(this);  
+    this.handleKeyDown = this.handleKeyDown.bind(this);      
+    this.handleDelete = this.handleDelete.bind(this); 
   };
 
   handleChange = (event) => {
     const value = event.target.value;
-    this.setState({newsComment: value});
+    this.setState({commentInput: value});
   };
 
   handleKeyDown = (event) => {
-    if (event.keyCode === 13) {
-            const {newsComment, comment} = this.state;
-            const myComment = {value: newsComment, id: getCommentsId()};
+    if (event.keyCode === 13  && event.target.value !== '') {
+            const {commentInput, comments} = this.state;
+            const comment = {value: commentInput, id: getNewsId()};
       
-            this.setState({newsComment: '', comment: [ ...comment, myComment]});
+            this.setState({commentInput: '', comments: [ ...comments, comment]});
     }
   };
 
   handleDelete = (id) => {
     this.setState(state => ({
-      comment: state.comment.filter(comment => id != comment.id)
+      comments: state.comments.filter(comments => id !== comments.id)
     }));
   };
 
   render() {
     const {text} = this.props; 
-    const {newsComment, comment} = this.state;
+    const {commentInput, comments} = this.state;
     return ( 
       <div>
         <p className="news">{text}</p> 
         <div className="comments-wrap">
-          {comment.map(comment => (<Comment onDelete={this.handleDelete} id={comment.id} key={comment.id} text = {comment.value} />))}
+          {comments.map(comments => (<Comment onDelete={this.handleDelete} id={comments.id} key={comments.id} text = {comments.value} />))}
         </div>
           
         <input 
-          value={newsComment}
+          value={commentInput}
           onChange={this.handleChange} 
           onKeyDown={this.handleKeyDown}
         />
